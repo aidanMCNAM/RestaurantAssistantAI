@@ -1,0 +1,12 @@
+Spring Boot reads your OpenAI key from the environment variable ✅
+EmbeddingService builds and sends a real HTTP request to OpenAI ✅
+OpenAI processes the text and sends back a 1536-number vector representing its meaning ✅
+Spring parses that response and returns it through your API ✅
+
+
+what I did on July 23rd 
+* A full Spring Boot backend with a real Postgres database behind it
+* A working REST API (POST/GET /documents) that saves and retrieves data
+* Learned how Java classes become database tables via Hibernate
+* Set up and secured an API key the right way (environment variables, not hardcoded secrets)
+* Built a real service class that calls an external AI API and got back a working embedding
