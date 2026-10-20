@@ -23,9 +23,8 @@ public class AnswerService {
         }
 
         String systemPrompt = "You are an assistant for restaurant staff. Answer the question using ONLY "
-                + "the documents provided. If the documents do not contain the answer, say you don't "
-                + "have that information and suggest asking a manager. Keep answers short and practical.";
-
+        + "the documents provided. If the documents do not contain the answer, reply with exactly "
+        + "NOT_COVERED and nothing else. Otherwise keep answers short and practical.";
         String userPrompt = "Documents:\n" + context + "Question: " + question;
 
         Map<String, Object> requestBody = Map.of(

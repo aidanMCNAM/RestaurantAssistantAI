@@ -18,6 +18,8 @@ public class DocumentController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+private QuestionLogRepository questionLogRepository;
     @GetMapping
     public List<Document> getAllDocuments() {
         return documentRepository.findAll();
@@ -46,7 +48,17 @@ public class DocumentController {
     @GetMapping("/ask")
     public String ask(@RequestParam String q) {
         List<Document> relevant = findRelevant(q, 2);
-        return answerService.answer(q, relevant);
+        String rawAnswer = answerService.answer(q, relevant);
+    
+        boolean answered = !rawAnswer.contains("NOT_COVERED");
+        String answer = answered
+                ? rawAnswer
+                : "I don't have that information in our policies. Please ask a manager.";
+    
+        String topTitle = answered && !relevant.isEmpty() ? relevant.get(0).getTitle() : null;
+        questionLogRepository.save(new QuestionLog(q, answer, topTitle, answered));
+    
+        return answer;
     }
 
     private List<Document> findRelevant(String question, int limit) {
