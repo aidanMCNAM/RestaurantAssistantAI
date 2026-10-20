@@ -3,7 +3,7 @@ package com.aidan.restaurant_assistant;
 import org.hibernate.annotations.Array;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,7 +51,7 @@ public class Document {
     public void setContent(String content) {
         this.content = content;
     }
-
+    @JsonIgnore
     public float[] getEmbedding() {
         return embedding;
     }

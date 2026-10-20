@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,5 +37,22 @@ public Document createDocument(@RequestBody Document document) {
     document.setEmbedding(embeddingArray);
 
     return documentRepository.save(document);
+}
+
+@GetMapping("/search")
+public List<Document> search(@RequestParam String q,
+                             @RequestParam(defaultValue = "2") int limit) {
+    List<Double> embeddingList = embeddingService.getEmbedding(q);
+
+    StringBuilder vectorText = new StringBuilder("[");
+    for (int i = 0; i < embeddingList.size(); i++) {
+        if (i > 0) {
+            vectorText.append(",");
+        }
+        vectorText.append(embeddingList.get(i));
+    }
+    vectorText.append("]");
+
+    return documentRepository.findMostSimilar(vectorText.toString(), limit);
 }
 }
